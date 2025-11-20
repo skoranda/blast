@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "revproxy",
     "rest_framework",
     "api",
+    "astro_dash",
     "users",
     "django_cron",
     "django_filters",
