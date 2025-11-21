@@ -57,16 +57,14 @@ class BatchProcessingService:
             if files is None:
                 raise ValidationException("No files provided for batch processing")
 
-        # Check if it's a zip file (UploadedFile with .zip extension or single file)
-        if hasattr(files, 'name') and hasattr(files, 'read'):
-                # Handle zip file or single file
+            # Check if it's a zip file (UploadedFile with .zip extension or single file)
+            if hasattr(files, 'name') and hasattr(files, 'read'):
                 logger.info(f"Processing file: {getattr(files, 'name', 'unknown')}")
                 return await self._process_zip_file(files, params, model_type, model_id)
             elif isinstance(files, list):
-                # Handle list of individual files
                 return await self._process_file_list(files, params, model_type, model_id)
             else:
-                raise ValidationException(f"Invalid files type: {type(files)}. Expected UploadFile or List[UploadFile]")
+                raise ValidationException(f"Invalid files type: {type(files)}. Expected UploadedFile or List[UploadedFile]")
 
         except (ValidationException, BatchProcessingException):
             raise
