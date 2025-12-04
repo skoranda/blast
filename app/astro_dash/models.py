@@ -6,7 +6,7 @@ import uuid
 class SpectrumRecord(models.Model):
     """Persisted snapshot of a processed spectrum."""
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.CharField(primary_key=True, max_length=64, default=lambda: str(uuid.uuid4()), editable=False)
     osc_ref = models.CharField(max_length=128, blank=True, null=True, db_index=True)
     file_name = models.CharField(max_length=255, blank=True, null=True)
     x = models.JSONField()

@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="SpectrumRecord",
             fields=[
-                ("id", models.UUIDField(primary_key=True, default=uuid.uuid4, serialize=False, editable=False)),
+                ("id", models.CharField(primary_key=True, max_length=64, default=uuid.uuid4, serialize=False, editable=False)),
                 ("osc_ref", models.CharField(blank=True, null=True, max_length=128, db_index=True)),
                 ("file_name", models.CharField(blank=True, null=True, max_length=255)),
                 ("x", models.JSONField()),
