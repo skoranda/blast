@@ -20,7 +20,7 @@ class ModelFactory:
     ) -> BaseClassifier:
         if user_model_id:
             # Create a ModelStorage instance using configured user_model_dir
-            base_dir = getattr(self.config, 'user_model_dir', '/data/user_models') if self.config else '/data/user_models'
+            base_dir = getattr(self.config, 'user_model_dir', '/mnt/astrodash-data/user_models') if self.config else '/mnt/astrodash-data/user_models'
             model_storage = ModelStorage(base_dir)
             return UserClassifier(user_model_id, model_storage, self.config)
         if model_type == "dash":
