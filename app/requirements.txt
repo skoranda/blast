@@ -17,6 +17,7 @@ django-revproxy==0.13.0
 django-silk==5.4.3
 django-tables2==2.7.5
 djangorestframework==3.16.1
+django-cors-headers==4.6.0
 dustmaps==1.0.14
 dynesty==2.1.5
 extinction==0.4.7
