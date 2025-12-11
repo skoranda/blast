@@ -5,85 +5,85 @@ import os
 
 class Settings(BaseSettings):
     # General
-    app_name: str = Field("AstroDash API", env="APP_NAME")
-    environment: str = Field("production", env="ENVIRONMENT")
-    debug: bool = Field(False, env="DEBUG")
+    app_name: str = Field("AstroDash API", env="ASTRO_DASH_APP_NAME")
+    environment: str = Field("production", env="ASTRO_DASH_ENVIRONMENT")
+    debug: bool = Field(False, env="ASTRO_DASH_DEBUG")
 
     # API
-    api_prefix: str = Field("/api/v1", env="API_PREFIX")
-    allowed_hosts: List[str] = Field(["*"], env="ALLOWED_HOSTS")  # Allow all hosts for API usage
-    cors_origins: List[str] = Field(["*"], env="CORS_ORIGINS")    # Allow all origins for API usage
+    api_prefix: str = Field("/api/v1", env="ASTRO_DASH_API_PREFIX")
+    allowed_hosts: List[str] = Field(["*"], env="ASTRO_DASH_ALLOWED_HOSTS")  # Allow all hosts for API usage
+    cors_origins: List[str] = Field(["*"], env="ASTRO_DASH_CORS_ORIGINS")    # Allow all origins for API usage
 
     # Security Settings
-    secret_key: str = Field("your-super-secret-key-here-make-it-very-long-and-secure-32-chars-min", env="SECRET_KEY")
-    access_token_expire_minutes: int = Field(60 * 24, env="ACCESS_TOKEN_EXPIRE_MINUTES")
+    secret_key: str = Field("your-super-secret-key-here-make-it-very-long-and-secure-32-chars-min", env="ASTRO_DASH_SECRET_KEY")
+    access_token_expire_minutes: int = Field(60 * 24, env="ASTRO_DASH_ACCESS_TOKEN_EXPIRE_MINUTES")
 
     # Rate Limiting
-    rate_limit_requests_per_minute: int = Field(600, env="RATE_LIMIT_REQUESTS_PER_MINUTE")
-    rate_limit_burst_limit: int = Field(100, env="RATE_LIMIT_BURST_LIMIT")
+    rate_limit_requests_per_minute: int = Field(600, env="ASTRO_DASH_RATE_LIMIT_REQUESTS_PER_MINUTE")
+    rate_limit_burst_limit: int = Field(100, env="ASTRO_DASH_RATE_LIMIT_BURST_LIMIT")
 
     # Security Headers
-    enable_hsts: bool = Field(True, env="ENABLE_HSTS")
-    enable_csp: bool = Field(True, env="ENABLE_CSP")
-    enable_permissions_policy: bool = Field(True, env="ENABLE_PERMISSIONS_POLICY")
+    enable_hsts: bool = Field(True, env="ASTRO_DASH_ENABLE_HSTS")
+    enable_csp: bool = Field(True, env="ASTRO_DASH_ENABLE_CSP")
+    enable_permissions_policy: bool = Field(True, env="ASTRO_DASH_ENABLE_PERMISSIONS_POLICY")
 
     # Input Validation
-    max_request_size: int = Field(100 * 1024 * 1024, env="MAX_REQUEST_SIZE")  # 100MB
-    max_file_size: int = Field(50 * 1024 * 1024, env="MAX_FILE_SIZE")  # 50MB
+    max_request_size: int = Field(100 * 1024 * 1024, env="ASTRO_DASH_MAX_REQUEST_SIZE")  # 100MB
+    max_file_size: int = Field(50 * 1024 * 1024, env="ASTRO_DASH_MAX_FILE_SIZE")  # 50MB
 
     # Session Security
-    session_cookie_secure: bool = Field(True, env="SESSION_COOKIE_SECURE")
-    session_cookie_httponly: bool = Field(True, env="SESSION_COOKIE_HTTPONLY")
-    session_cookie_samesite: str = Field("strict", env="SESSION_COOKIE_SAMESITE")
+    session_cookie_secure: bool = Field(True, env="ASTRO_DASH_SESSION_COOKIE_SECURE")
+    session_cookie_httponly: bool = Field(True, env="ASTRO_DASH_SESSION_COOKIE_HTTPONLY")
+    session_cookie_samesite: str = Field("strict", env="ASTRO_DASH_SESSION_COOKIE_SAMESITE")
 
     # Database
-    db_url: Optional[AnyUrl] = Field(None, env="DATABASE_URL")
-    db_echo: bool = Field(False, env="DB_ECHO")
+    db_url: Optional[AnyUrl] = Field(None, env="ASTRO_DASH_DATABASE_URL")
+    db_echo: bool = Field(False, env="ASTRO_DASH_DB_ECHO")
 
     # Data Storage (External to application code)
-    data_dir: str = Field("/mnt/astrodash-data", env="DATA_DIR")
-    storage_dir: str = Field("/mnt/astrodash-data", env="STORAGE_DIR")
+    data_dir: str = Field("/mnt/astrodash-data", env="ASTRO_DASH_DATA_DIR")
+    storage_dir: str = Field("/mnt/astrodash-data", env="ASTRO_DASH_STORAGE_DIR")
 
     # ML Model Paths (External data directory)
-    user_model_dir: str = Field("/mnt/astrodash-data/user_models", env="USER_MODEL_DIR")
-    dash_model_path: str = Field("/mnt/astrodash-data/pre_trained_models/dash/pytorch_model.pth", env="DASH_MODEL_PATH")
-    dash_training_params_path: str = Field("/mnt/astrodash-data/pre_trained_models/dash/training_params.pickle", env="DASH_TRAINING_PARAMS_PATH")
-    transformer_model_path: str = Field("/mnt/astrodash-data/pre_trained_models/transformer/TF_wiserep_v6.pt", env="TRANSFORMER_MODEL_PATH")
+    user_model_dir: str = Field("/mnt/astrodash-data/user_models", env="ASTRO_DASH_USER_MODEL_DIR")
+    dash_model_path: str = Field("/mnt/astrodash-data/pre_trained_models/dash/pytorch_model.pth", env="ASTRO_DASH_DASH_MODEL_PATH")
+    dash_training_params_path: str = Field("/mnt/astrodash-data/pre_trained_models/dash/training_params.pickle", env="ASTRO_DASH_DASH_TRAINING_PARAMS_PATH")
+    transformer_model_path: str = Field("/mnt/astrodash-data/pre_trained_models/transformer/TF_wiserep_v6.pt", env="ASTRO_DASH_TRANSFORMER_MODEL_PATH")
 
     # Template and Line List Paths (External data directory)
-    template_path: str = Field("/mnt/astrodash-data/pre_trained_models/templates/sn_and_host_templates.npz", env="TEMPLATE_PATH")
-    line_list_path: str = Field("/mnt/astrodash-data/pre_trained_models/templates/sneLineList.txt", env="LINE_LIST_PATH")
+    template_path: str = Field("/mnt/astrodash-data/pre_trained_models/templates/sn_and_host_templates.npz", env="ASTRO_DASH_TEMPLATE_PATH")
+    line_list_path: str = Field("/mnt/astrodash-data/pre_trained_models/templates/sneLineList.txt", env="ASTRO_DASH_LINE_LIST_PATH")
 
     # ML Configuration Parameters
     # DASH model parameters
-    nw: int = Field(1024, env="NW")  # Number of wavelength bins
-    w0: float = Field(3500.0, env="W0")  # Minimum wavelength in Angstroms
-    w1: float = Field(10000.0, env="W1")  # Maximum wavelength in Angstroms
+    nw: int = Field(1024, env="ASTRO_DASH_NW")  # Number of wavelength bins
+    w0: float = Field(3500.0, env="ASTRO_DASH_W0")  # Minimum wavelength in Angstroms
+    w1: float = Field(10000.0, env="ASTRO_DASH_W1")  # Maximum wavelength in Angstroms
 
     # Transformer model parameters
     label_mapping: Dict[str, int] = Field(
         {'Ia': 0, 'IIn': 1, 'SLSNe-I': 2, 'II': 3, 'Ib/c': 4},
-        env="LABEL_MAPPING"
+        env="ASTRO_DASH_LABEL_MAPPING"
     )
 
     # Transformer architecture parameters
-    transformer_bottleneck_length: int = Field(1, env="TRANSFORMER_BOTTLENECK_LENGTH")
-    transformer_model_dim: int = Field(128, env="TRANSFORMER_MODEL_DIM")
-    transformer_num_heads: int = Field(4, env="TRANSFORMER_NUM_HEADS")
-    transformer_num_layers: int = Field(6, env="TRANSFORMER_NUM_LAYERS")
-    transformer_ff_dim: int = Field(256, env="TRANSFORMER_FF_DIM")
-    transformer_dropout: float = Field(0.1, env="TRANSFORMER_DROPOUT")
-    transformer_selfattn: bool = Field(False, env="TRANSFORMER_SELFATTN")
+    transformer_bottleneck_length: int = Field(1, env="ASTRO_DASH_TRANSFORMER_BOTTLENECK_LENGTH")
+    transformer_model_dim: int = Field(128, env="ASTRO_DASH_TRANSFORMER_MODEL_DIM")
+    transformer_num_heads: int = Field(4, env="ASTRO_DASH_TRANSFORMER_NUM_HEADS")
+    transformer_num_layers: int = Field(6, env="ASTRO_DASH_TRANSFORMER_NUM_LAYERS")
+    transformer_ff_dim: int = Field(256, env="ASTRO_DASH_TRANSFORMER_FF_DIM")
+    transformer_dropout: float = Field(0.1, env="ASTRO_DASH_TRANSFORMER_DROPOUT")
+    transformer_selfattn: bool = Field(False, env="ASTRO_DASH_TRANSFORMER_SELFATTN")
 
     # User model parameters
-    user_model_reliability_threshold: float = Field(0.5, env="USER_MODEL_RELIABILITY_THRESHOLD")
+    user_model_reliability_threshold: float = Field(0.5, env="ASTRO_DASH_USER_MODEL_RELIABILITY_THRESHOLD")
 
     # Logging
-    log_dir: str = Field("logs", env="LOG_DIR")
-    log_level: str = Field("INFO", env="LOG_LEVEL")
+    log_dir: str = Field("logs", env="ASTRO_DASH_LOG_DIR")
+    log_level: str = Field("INFO", env="ASTRO_DASH_LOG_LEVEL")
 
     # Other
-    osc_api_url: str = Field("https://api.astrocats.space", env="OSC_API_URL")
+    osc_api_url: str = Field("https://api.astrocats.space", env="ASTRO_DASH_OSC_API_URL")
 
     class Config:
         env_file = ".env"
