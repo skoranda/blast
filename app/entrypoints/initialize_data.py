@@ -27,8 +27,8 @@ DATA_INIT_S3_CONF = {
 }
 
 
-def generate_file_manifest():
-    """Collect metadata for the latest versions of the objects in a JSON file"""
+def generate_file_manifest(app_name="blast"):
+    '''Collect metadata for the latest versions of the objects in a JSON file'''
     s3init = ObjectStore(conf=DATA_INIT_S3_CONF)
     root_path = "init/data/"
     objs = s3init.get_directory_objects(root_path)
@@ -44,8 +44,8 @@ def generate_file_manifest():
             file_info.append(info)
         else:
             logger.debug(info)
-    # TODO fix this
-    with open(os.path.join(Path(__file__).resolve().parent, 'blast-data.json'), 'w') as fh:
+    manifest_name = f"{app_name}=data.json"
+    with open(os.path.join(Path(__file__).resolve().parent, manifest_name), 'w') as fh:
         json.dump(file_info, fh, indent=2)
 
 def verify_data_integrity(download=False, app_name="blast"):
