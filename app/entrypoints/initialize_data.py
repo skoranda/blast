@@ -44,25 +44,30 @@ def generate_file_manifest():
             file_info.append(info)
         else:
             logger.debug(info)
-    with open(
-        os.path.join(Path(__file__).resolve().parent, "blast-data.json"), "w"
-    ) as fh:
+    # TODO fix this
+    with open(os.path.join(Path(__file__).resolve().parent, 'blast-data.json'), 'w') as fh:
         json.dump(file_info, fh, indent=2)
 
-# TODO refactor this so that anything "old" blast specific can be passed
-# in or otherwise abstracted away from the hardcoding below...
 def verify_data_integrity(download=False, app_name="blast"):
-    '''Verify integrity of initial data file set for the requested app ("blast" or "astrodash")'''
-    s3_init = ObjectStore(conf=DATA_INIT_S3_CONF)
+    '''Verify integrity of initial data file set for the requested app, currently "blast" or "astrodash"'''
+    bucket = (
+        os.getenv("S3_BUCKET_INIT", 'blast-astro-data') if app_name == "blast" else
+        app_name
+        )
+    s3_conf = DATA_INIT_S3_CONF
+    s3_conf['bucket'] = bucket
+    s3_init = ObjectStore(conf=s3_conf)
     s3_data = ObjectStore()
+
     data_root_dir = (
         os.getenv('DATA_ROOT_DIR', '/mnt/data') if app_name == "blast" else
-        os.getenv('ASTRODASH_DATA_DIR', '/mnt/astrodash-data') if app_name == "astrodash" else
-        f"{app_name}-data"
+        os.getenv(f"{app_name.upper()}_DATA_DIR", f"/mnt/{app_name}-data")
         )
-    manifest_name = 'blast-data.json' if app_name == "blast" else f"{app_name}-data.json"
+
+    manifest_name = f"{app_name}-data.json"
     with open(os.path.join(Path(__file__).resolve().parent, manifest_name), 'r') as fh:
         data_objects = json.load(fh)
+
     for data_object in data_objects:
         bucket_path = data_object["path"]
         file_path = os.path.join(data_root_dir, bucket_path)
@@ -102,6 +107,7 @@ def verify_data_integrity(download=False, app_name="blast"):
                 sys.exit(1)
             else:
                 logger.info(f'''Downloaded file "{bucket_path}" passes integrity check.''')
+
         # Only push to cutout/sed buckets for the original blast app
         if app_name == "blast":
             logger.debug(f'''Checking if "{bucket_path}" needs to be uploaded to bucket...''')
@@ -135,6 +141,6 @@ if __name__ == "__main__":
     if cmd == 'download':
         # Verify uploads against local files
         verify_data_integrity(download=True, app_name="blast")
-        # TODO add a second call here...
+        verify_data_integrity(download=True, app_name="astrodash")
     elif cmd == 'manifest':
         generate_file_manifest()
